@@ -1,4 +1,4 @@
-# 💰 Personal Finance Manager (CLI)
+#  Personal Finance Manager (CLI)
 
 A simple command-line personal finance manager written in Python.
 
