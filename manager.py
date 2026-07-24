@@ -6,26 +6,29 @@ class Manager:
         self.balance = 0
 
     def add_income(self, transaction):
-        transaction.id = self.next_id
-        self.next_id += 1
         if transaction.amount > 0:
+            transaction.id = self.next_id
+            self.next_id += 1
+
             self.transactions.append(transaction)
             self.balance += transaction.amount
             transaction.type = "income"
             return True
-        else:
-            return False
+
+        return False
 
     def add_expense(self, transaction):
-        transaction.id = self.next_id
-        self.next_id += 1
         if transaction.amount > 0 and transaction.amount <= self.balance:
+
+            transaction.id = self.next_id
+            self.next_id += 1
+
             self.transactions.append(transaction)
             self.balance -= transaction.amount
             transaction.type = "expense"
             return True
-        else:
-            return False
+
+        return False
 
     def show_incomes(self):
         incomes_list = []
