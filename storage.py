@@ -24,7 +24,8 @@ def save_transaction(transactions):
                 transaction.title,
                 transaction.type,
                 transaction.amount,
-                transaction.created_at
+                transaction.created_at.isoformat()
+
             ])
 
 
