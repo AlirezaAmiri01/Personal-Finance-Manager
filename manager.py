@@ -1,9 +1,24 @@
+
+from storage import save_transaction, load_transaction
+
+
 class Manager:
 
     def __init__(self):
-        self.transactions = []
-        self.next_id = 1
+        self.transactions = load_transaction()
+        if self.transactions:
+            self.next_id = max(
+                transaction.id for transaction in self.transactions)+1
+
+        else:
+            self.next_id = 1
+
         self.balance = 0
+        for transaction in self.transactions:
+            if transaction.type == "Income":
+                self.balance += transaction.amount
+            else:
+                self.balance -= transaction.amount
 
     def add_income(self, transaction):
         if transaction.amount > 0:
@@ -12,7 +27,9 @@ class Manager:
 
             self.transactions.append(transaction)
             self.balance += transaction.amount
-            transaction.type = "income"
+            transaction.type = "Income"
+            self.save()
+            print("save")
             return True
 
         return False
@@ -25,7 +42,8 @@ class Manager:
 
             self.transactions.append(transaction)
             self.balance -= transaction.amount
-            transaction.type = "expense"
+            transaction.type = "Expense"
+            self.save()
             return True
 
         return False
@@ -33,14 +51,14 @@ class Manager:
     def show_incomes(self):
         incomes_list = []
         for transaction in self.transactions:
-            if transaction.type == "income":
+            if transaction.type == "Income":
                 incomes_list.append(transaction)
         return incomes_list
 
     def show_expenses(self):
         expenses_list = []
         for transaction in self.transactions:
-            if transaction.type == "expense":
+            if transaction.type == "Expense":
                 expenses_list.append(transaction)
         return expenses_list
 
@@ -57,12 +75,23 @@ class Manager:
         return None
 
     def remove_transaction(self, transaction_id):
+
         for transaction in self.transactions:
+
             if transaction.id == transaction_id:
+
                 self.transactions.remove(transaction)
-                if transaction.type == "income":
+
+                if transaction.type == "Income":
                     self.balance -= transaction.amount
                 else:
                     self.balance += transaction.amount
+
+                self.save()
+
                 return True
+
         return False
+
+    def save(self):
+        save_transaction(self.transactions)
