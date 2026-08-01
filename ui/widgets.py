@@ -1,5 +1,6 @@
 import customtkinter as ctk
 from ui.styles import *
+from ui.edit_transaction import EditTransaction
 
 
 class InfoCard(ctk.CTkFrame):
@@ -16,7 +17,6 @@ class InfoCard(ctk.CTkFrame):
 
         self.title = title
         self.value = value
-
         self.build_card()
 
         self.bind("<Enter>", lambda e: self.configure(fg_color=CARD_HOVER))
@@ -95,18 +95,6 @@ class TransactionCard(ctk.CTkFrame):
         self.transaction = transaction
 
         self.create_widgets()
-
-        self.bind_hover()
-
-    # -----------------
-    # hover
-    # -----------------
-
-    def bind_hover(self):
-
-        self.bind("<Enter>", lambda e: self.configure(fg_color=CARD_HOVER))
-
-        self.bind("<Leave>", lambda e: self.configure(fg_color=CARD))
 
     # -----------------
     # widgets
@@ -205,9 +193,33 @@ class TransactionCard(ctk.CTkFrame):
             sticky="e"
         )
 
+        self.edit_button = ctk.CTkButton(
+            self,
+            text="Edit",
+            width=80,
+            command=self.edit_transaction,
+            fg_color=BUTTON,
+            hover_color=BUTTON_HOVER
+        )
+
+        self.edit_button.grid(
+            row=len(labels)+2,
+            column=0,
+            padx=20,
+            pady=15,
+            sticky="w"
+        )
+
         self.grid_rowconfigure(len(labels)+3, minsize=10)
 
     def delete_transaction(self):
 
         self.manager.remove_transaction(self.transaction.id)
         self.destroy()
+
+    def edit_transaction(self):
+
+        self.app.show_page(
+            EditTransaction,
+            self.transaction
+        )

@@ -5,6 +5,7 @@ from ui.add_income import AddIncome
 from ui.add_expense import AddExpense
 from ui.transactions import TransactionsPage
 from ui.styles import *
+from ui.edit_transaction import EditTransaction
 
 
 class App(ctk.CTk):
@@ -93,12 +94,18 @@ class App(ctk.CTk):
     # change page
     # -------------
 
-    def show_page(self, page):
+    def show_page(self, page, *args):
 
         if self.current_page:
             self.current_page.destroy()
 
-        self.current_page = page(self.content, self.manager, self)
+        self.current_page = page(
+            self.content,
+            self.manager,
+            self,
+            *args
+        )
+
         self.current_page.pack(fill="both", expand=True)
 
     # -------------------
