@@ -6,6 +6,7 @@ from ui.add_expense import AddExpense
 from ui.transactions import TransactionsPage
 from ui.styles import *
 from ui.edit_transaction import EditTransaction
+from tkinter import messagebox
 
 
 class App(ctk.CTk):
@@ -118,6 +119,7 @@ class App(ctk.CTk):
             ("Add Income", lambda: self.show_page(AddIncome)),
             ("Add Expense", lambda: self.show_page(AddExpense)),
             ("Transactions", lambda: self.show_page(TransactionsPage)),
+            ("Reset", self.reset_app),
             ("Exit", self.destroy)
         ]
         for text, command in buttons:
@@ -132,3 +134,15 @@ class App(ctk.CTk):
                 height=42
             )
             button.pack(fill="x", pady=10, padx=20)
+
+    def reset_app(self):
+        answer = messagebox.askyesno(
+            "Reset",
+            "Are you sure you want to delete all transactions?"
+        )
+
+        if answer:
+            self.manager.reset_data()
+            messagebox.showinfo("Reset", "App reset successfully")
+
+            self.show_home_page()

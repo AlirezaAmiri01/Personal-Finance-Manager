@@ -130,3 +130,10 @@ class Manager:
 
     def save(self):
         save_transaction(self.transactions)
+
+    def reset_data(self):
+        self.transactions.clear()
+        self.balance = 0
+        self.next_id = 1
+        self.save()
+        return True
