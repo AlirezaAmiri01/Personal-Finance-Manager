@@ -93,5 +93,40 @@ class Manager:
 
         return False
 
+    def update_transaction(self, transaction_id, new_title, new_amount):
+
+        for transaction in self.transactions:
+
+            if transaction.id == transaction_id:
+
+                old_amount = transaction.amount
+
+                if transaction.type == "Income":
+
+                    new_balance = self.balance - old_amount + new_amount
+
+                    if new_balance < 0:
+                        return False
+
+                    self.balance = new_balance
+
+                else:
+
+                    available_balance = self.balance + old_amount
+
+                    if new_amount > available_balance:
+                        return False
+
+                    self.balance = available_balance - new_amount
+
+                transaction.title = new_title
+                transaction.amount = new_amount
+
+                self.save()
+
+                return True
+
+        return False
+
     def save(self):
         save_transaction(self.transactions)
