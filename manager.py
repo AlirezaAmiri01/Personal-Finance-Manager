@@ -29,7 +29,6 @@ class Manager:
             self.balance += transaction.amount
             transaction.type = "Income"
             self.save()
-            print("save")
             return True
 
         return False
