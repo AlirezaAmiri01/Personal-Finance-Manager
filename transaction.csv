@@ -1,1 +1,5 @@
 id,title,type,amount,date
+1,salary,Income,5000.0,2026-08-01
+2,teach,Income,700.0,2026-08-01
+3,food,Expense,400.0,2026-08-01
+4,book,Expense,350.0,2026-08-01

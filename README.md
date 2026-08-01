@@ -1,36 +1,72 @@
-#  Personal Finance Manager (CLI)
+# Personal Finance Manager
 
-A simple command-line personal finance manager written in Python.
+A desktop application for managing personal income and expenses.
+
+
+## Screenshots
+
+### Dashboard
+![Dashboard][images/first.png]
+
+### Transactions
+![Transactions][images/second.png]
+![Transactions][images/3.png]
+
+###
+1[Edit][images/4.png]
+
 
 ## Features
 
 - Add income transactions
 - Add expense transactions
-- Remove transactions
+- Edit transactions
+- Delete transactions
 - Search transactions by ID
-- Show all transactions
-- Show only incomes
-- Show only expenses
-- Show current balance
-- Save data to CSV
-- Load data automatically on startup
+- Filter transactions by type
+- Sort transactions by:
+  - Newest
+  - Oldest
+  - Highest amount
+  - Lowest amount
+- Track current balance
+- Reset all data
+- Save data using CSV file
 
 ## Technologies
 
 - Python
-- OOP
+- CustomTkinter
 - CSV
-- Datetime
-- File Handling
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/AlirezaAmiri01/Personal-Finance-Manager.git
+```
+
+pip install -r requirements.txt
+
+
+## Run the app
+
+python main.py
+
 
 ## Project Structure
 
-```
-finance-manager/
-│
-├── main.py
-├── manager.py
-├── transaction.py
-├── storage.py
-└── transaction.csv
-```
+The application stores transactions in a CSV file.
+Each transaction contains:
+- ID
+- Title
+- Amount
+- Type
+- Creation date
+- Future Improvements
+- Add financial charts and reports
+- Add more advanced filters
+- Improve user interface
+- Add database support
+- Add export and import features

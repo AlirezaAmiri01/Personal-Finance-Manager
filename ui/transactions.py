@@ -215,12 +215,12 @@ class TransactionsPage(ctk.CTkFrame):
     # ----------
     # show
     # ----------
-
     def show_transactions(self):
 
         self.search_message.configure(text="")
         self.clear_transactions()
-        transactions = self.manager.show_all()
+
+        transactions = self.manager.show_all().copy()
 
         if not transactions:
 
@@ -235,8 +235,14 @@ class TransactionsPage(ctk.CTkFrame):
             return
 
         for transaction in transactions:
+
             card = TransactionCard(
-                self.list_frame, transaction, self.manager, self.app)
+                self.list_frame,
+                transaction,
+                self.manager,
+                self.app
+            )
+
             card.pack(fill="x", padx=20, pady=12)
 
     # -----------------
@@ -246,21 +252,20 @@ class TransactionsPage(ctk.CTkFrame):
     def sort_transactions(self, value):
 
         self.current_sort = value
-
         self.refresh_transactions()
 
-    # ---------------
+    # -----------------
     # filter func
-    # ---------------
+    # -----------------
 
     def filter_transactions(self, value):
 
         self.current_filter = value
         self.refresh_transactions()
 
-    # -------------
+    # -----------------
     # refresh
-    # -------------
+    # -----------------
 
     def refresh_transactions(self):
 
@@ -277,29 +282,31 @@ class TransactionsPage(ctk.CTkFrame):
 
         if self.current_sort == "Newest":
 
-            transactions.sort(
-                key=lambda x: x.created_at,
-                reverse=True
-            )
+            transactions.sort(key=lambda x: x.created_at, reverse=True)
 
         elif self.current_sort == "Oldest":
 
-            transactions.sort(
-                key=lambda x: x.created_at
-            )
+            transactions.sort(key=lambda x: x.created_at)
 
         elif self.current_sort == "Highest Amount":
 
-            transactions.sort(
-                key=lambda x: x.amount,
-                reverse=True
-            )
+            transactions.sort(key=lambda x: x.amount, reverse=True)
 
         elif self.current_sort == "Lowest Amount":
 
-            transactions.sort(
-                key=lambda x: x.amount
+            transactions.sort(key=lambda x: x.amount)
+
+        if not transactions:
+
+            empty_label = ctk.CTkLabel(
+                self.list_frame,
+                text="No transactions yet",
+                font=SUBTITLE_FONT,
+                text_color=SECONDARY_TEXT
             )
+
+            empty_label.pack(pady=80)
+            return
 
         for transaction in transactions:
 
