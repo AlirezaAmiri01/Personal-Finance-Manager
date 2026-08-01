@@ -9,7 +9,7 @@ A desktop application for managing personal income and expenses.
 ![Dashboard](images/1.png)
 
 ### Transactions
-![Transactions](images/2.png)
+![Transactions](images/22.png)
 ![Transactions](images/33.png)
 
 ### Edit page
