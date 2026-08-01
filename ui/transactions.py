@@ -11,6 +11,8 @@ class TransactionsPage(ctk.CTkFrame):
 
         self.manager = manager
         self.app = app
+        self.current_filter = "All"
+        self.current_sort = "Newest"
 
         self.create_widgets()
 
@@ -35,6 +37,7 @@ class TransactionsPage(ctk.CTkFrame):
         self.search_frame = ctk.CTkFrame(self, fg_color="transparent")
         self.search_frame.pack(fill="x", padx=30, pady=(0, 20))
         self.search_frame.grid_columnconfigure(0, weight=1)
+        self.search_frame.grid_columnconfigure(3, weight=0)
 
         self.search_message = ctk.CTkLabel(
             self,
@@ -90,6 +93,57 @@ class TransactionsPage(ctk.CTkFrame):
         self.show_all_button.grid(
             row=0,
             column=2
+        )
+
+        # -----------
+        # folter
+        # -----------
+
+        self.filter_option = ctk.CTkOptionMenu(
+            self.search_frame,
+            values=[
+                "All",
+                "Income",
+                "Expense"
+            ],
+            command=self.filter_transactions,
+            fg_color=BUTTON,
+            button_color=BUTTON,
+            button_hover_color=BUTTON_HOVER
+        )
+
+        self.filter_option.set("All")
+
+        self.filter_option.grid(
+            row=0,
+            column=3,
+            padx=(10, 0)
+        )
+
+        # -----------------------
+        # sort:optmenu,button
+        # -----------------------
+
+        self.sort_option = ctk.CTkOptionMenu(
+            self.search_frame,
+            values=[
+                "Newest",
+                "Oldest",
+                "Highest Amount",
+                "Lowest Amount"
+            ],
+            command=self.sort_transactions,
+            fg_color=BUTTON,
+            button_color=BUTTON,
+            button_hover_color=BUTTON_HOVER
+        )
+
+        self.sort_option.set("Newest")
+
+        self.sort_option.grid(
+            row=0,
+            column=4,
+            padx=(10, 0)
         )
 
         # ---------------------
@@ -183,4 +237,77 @@ class TransactionsPage(ctk.CTkFrame):
         for transaction in transactions:
             card = TransactionCard(
                 self.list_frame, transaction, self.manager, self.app)
+            card.pack(fill="x", padx=20, pady=12)
+
+    # -----------------
+    # sort func
+    # -----------------
+
+    def sort_transactions(self, value):
+
+        self.current_sort = value
+
+        self.refresh_transactions()
+
+    # ---------------
+    # filter func
+    # ---------------
+
+    def filter_transactions(self, value):
+
+        self.current_filter = value
+        self.refresh_transactions()
+
+    # -------------
+    # refresh
+    # -------------
+
+    def refresh_transactions(self):
+
+        self.clear_transactions()
+
+        transactions = self.manager.show_all().copy()
+
+        if self.current_filter != "All":
+
+            transactions = [
+                t for t in transactions
+                if t.type == self.current_filter
+            ]
+
+        if self.current_sort == "Newest":
+
+            transactions.sort(
+                key=lambda x: x.created_at,
+                reverse=True
+            )
+
+        elif self.current_sort == "Oldest":
+
+            transactions.sort(
+                key=lambda x: x.created_at
+            )
+
+        elif self.current_sort == "Highest Amount":
+
+            transactions.sort(
+                key=lambda x: x.amount,
+                reverse=True
+            )
+
+        elif self.current_sort == "Lowest Amount":
+
+            transactions.sort(
+                key=lambda x: x.amount
+            )
+
+        for transaction in transactions:
+
+            card = TransactionCard(
+                self.list_frame,
+                transaction,
+                self.manager,
+                self.app
+            )
+
             card.pack(fill="x", padx=20, pady=12)
