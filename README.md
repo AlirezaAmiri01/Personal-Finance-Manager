@@ -6,14 +6,14 @@ A desktop application for managing personal income and expenses.
 ## Screenshots
 
 ### Dashboard
-![Dashboard](images/first.png)
+![Dashboard](images/1.png)
 
 ### Transactions
-![Transactions](images/second.png)
-![Transactions](images/3.png)
+![Transactions](images/2.png)
+![Transactions](images/33.png)
 
 ### Edit page
-1[Edit](images/4.png)
+1[Edit](images/44.png)
 
 
 ## Features
